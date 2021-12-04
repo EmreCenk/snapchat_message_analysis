@@ -6,6 +6,8 @@ class message:
         self.text = text
         self.date = date
         self.username = username
+    def __repr__(self):
+        return self.text
 class snap_html_parser(BeautifulSoup):
 
     def __init__(self, path_to_html: str, **kwargs):
