@@ -19,3 +19,10 @@ def count_list_of_words(wordlist: Union[List[str], List[message]], case_sensitiv
             else: counted[word] = 1
 
     return counted
+
+def average_message_length(messageList: List[message]) -> float:
+    total = 0
+    for m in messageList:
+        total += len(m.text)
+
+    return total/len(messageList)

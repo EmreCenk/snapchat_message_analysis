@@ -36,11 +36,17 @@ class snap_html_parser(BeautifulSoup):
 
 
 if __name__ == '__main__':
+    from dotenv import load_dotenv
+    load_dotenv()
+    from os import environ
+
+    username = environ["SOME_USERNAME_FOR_SNAP_ANALYSIS"]
     s = snap_html_parser("chat_history.html")
     parsed = s.parse_people()
-    from utils import count_list_of_words
-    counted = count_list_of_words(parsed["some_username"])
+    from utils import count_list_of_words, average_message_length
+    counted = count_list_of_words(parsed[username])
     cat = sorted(counted, key = lambda x: counted[x], reverse = True)
     for word in cat:
         print(word + "\t" + str(counted[word]))
 
+    print("average message length:", average_message_length(parsed[username]))
