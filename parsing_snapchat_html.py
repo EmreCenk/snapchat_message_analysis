@@ -1,7 +1,11 @@
 
 from bs4 import BeautifulSoup
 from collections import defaultdict
-
+class message:
+    def __init__(self, text: str, date: str, username: str):
+        self.text = text
+        self.date = date
+        self.username = username
 class snap_html_parser(BeautifulSoup):
 
     def __init__(self, path_to_html: str, **kwargs):
@@ -28,8 +32,8 @@ class snap_html_parser(BeautifulSoup):
 
             elif len(info)>0:
                 print(info[0].text, current_person)
-                message = info[0].text
-                people[current_person].append(message)
+                current_message = message(text = info[0].text, date = current_date, username = current_person)
+                people[current_person].append(current_message)
         print(people)
 if __name__ == '__main__':
     s = snap_html_parser("chat_history.html")
