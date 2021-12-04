@@ -16,6 +16,6 @@ def count_list_of_words(wordlist: Union[List[str], List[message]], case_sensitiv
         sentence = sentence.split(" ")
         for word in sentence:
             if word in counted: counted[word] += 1
-            else: counted[word] = 0
+            else: counted[word] = 1
 
     return counted

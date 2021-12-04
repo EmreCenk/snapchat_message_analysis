@@ -39,8 +39,8 @@ if __name__ == '__main__':
     s = snap_html_parser("chat_history.html")
     parsed = s.parse_people()
     from utils import count_list_of_words
-    counted = count_list_of_words(parsed[""])
+    counted = count_list_of_words(parsed["some_username"])
     cat = sorted(counted, key = lambda x: counted[x], reverse = True)
     for word in cat:
-        print(word, counted[word])
+        print(word + "\t" + str(counted[word]))
 
