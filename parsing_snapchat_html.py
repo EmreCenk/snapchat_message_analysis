@@ -2,13 +2,8 @@
 from bs4 import BeautifulSoup
 from collections import defaultdict
 from typing import Dict, List
-class message:
-    def __init__(self, text: str, date: str, username: str):
-        self.text = text
-        self.date = date
-        self.username = username
-    def __repr__(self):
-        return self.text
+from utils import message
+
 class snap_html_parser(BeautifulSoup):
 
     def __init__(self, path_to_html: str, **kwargs):
@@ -34,12 +29,18 @@ class snap_html_parser(BeautifulSoup):
                 current_person, current_type, current_date = info[0].text, info[1].text, info[2].text
 
             elif len(info)>0:
-                print(info[0].text, current_person)
+                # print(info[0].text, current_person)
                 current_message = message(text = info[0].text, date = current_date, username = current_person)
                 people[current_person].append(current_message)
         return people
+
+
 if __name__ == '__main__':
     s = snap_html_parser("chat_history.html")
-    s.parse_people()
-
+    parsed = s.parse_people()
+    from utils import count_list_of_words
+    counted = count_list_of_words(parsed[""])
+    cat = sorted(counted, key = lambda x: counted[x], reverse = True)
+    for word in cat:
+        print(word, counted[word])
 
