@@ -7,12 +7,19 @@ class message:
     def __repr__(self):
         return self.text
 
+def replace_all(string: str, phrases_to_replace):
+    new_string = ""
+    for k in string:
+        if k not in phrases_to_replace:
+            new_string += k
+    return new_string
+
 def count_list_of_words(wordlist: Union[List[str], List[message]], case_sensitive: bool = True) -> Dict[str, int]:
     counted = {}
     for sentence in wordlist:
         if type(sentence) == message: sentence = sentence.text
         if case_sensitive: sentence = sentence.lower()
-        sentence = sentence.replace(".", "").replace("!", "")
+        sentence = replace_all(sentence, ".,!()!@#$%^&*?`~")
         sentence = sentence.split(" ")
         for word in sentence:
             if word in counted: counted[word] += 1

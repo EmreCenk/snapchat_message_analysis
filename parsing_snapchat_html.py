@@ -54,3 +54,4 @@ if __name__ == '__main__':
 
     username = environ["SOME_USERNAME_FOR_SNAP_ANALYSIS"]
     s = snap_html_parser("chat_history.html")
+    print(s.get_most_used_words(username))
