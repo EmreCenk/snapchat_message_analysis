@@ -2,7 +2,8 @@
 from bs4 import BeautifulSoup
 from collections import defaultdict
 from typing import Dict, List
-from utils import message
+from utils import message, count_list_of_words, average_message_length
+
 
 class snap_html_parser(BeautifulSoup):
 
@@ -34,6 +35,17 @@ class snap_html_parser(BeautifulSoup):
                 people[current_person].append(current_message)
         return people
 
+    def get_most_used_words(self, username: str) -> tuple[List[str], Dict[str, int]]:
+        """
+        :param username: Username of user you want to perform word frequency analysis on
+        :return: A tuple where the first element is the list of most used words in descending order. The second element is a
+        dictionary that maps words to how many times they are used.
+        """
+        parsed = s.parse_people()
+        counted = count_list_of_words(parsed[username])
+        most_used = sorted(counted, key=lambda x: counted[x], reverse=True)
+
+        return most_used, counted
 
 if __name__ == '__main__':
     from dotenv import load_dotenv
@@ -42,11 +54,3 @@ if __name__ == '__main__':
 
     username = environ["SOME_USERNAME_FOR_SNAP_ANALYSIS"]
     s = snap_html_parser("chat_history.html")
-    parsed = s.parse_people()
-    from utils import count_list_of_words, average_message_length
-    counted = count_list_of_words(parsed[username])
-    cat = sorted(counted, key = lambda x: counted[x], reverse = True)
-    for word in cat:
-        print(word + "\t" + str(counted[word]))
-
-    print("average message length:", average_message_length(parsed[username]))
