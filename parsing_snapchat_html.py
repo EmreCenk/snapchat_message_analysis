@@ -47,6 +47,20 @@ class snap_html_parser(BeautifulSoup):
 
         return most_used, counted
 
+    def word_length_over_time(self, username) -> List[tuple[str, int]]:
+        """
+        :param username: Username to analyze
+        :return: A list where List[i][0] is the ith date and List[i][1] is the ith total words
+        """
+        parsed = s.parse_people()
+        final_list = []
+        for message in parsed[username]:
+            final_list.append(
+                (message.date, len(message.text))
+            )
+
+        return final_list
+
 if __name__ == '__main__':
     from dotenv import load_dotenv
     load_dotenv()
@@ -54,4 +68,9 @@ if __name__ == '__main__':
 
     username = environ["SOME_USERNAME_FOR_SNAP_ANALYSIS"]
     s = snap_html_parser("chat_history.html")
-    print(s.get_most_used_words(username))
+    result = s.word_length_over_time(username)
+    # for r in result:
+    #     print(r[0] + "\t" + str(r[1]))
+
+    a = 0
+    for i in result: a+=i[1]
