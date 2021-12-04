@@ -1,6 +1,7 @@
 
 from bs4 import BeautifulSoup
 from collections import defaultdict
+from typing import Dict, List
 class message:
     def __init__(self, text: str, date: str, username: str):
         self.text = text
@@ -21,7 +22,7 @@ class snap_html_parser(BeautifulSoup):
             text = file.read()
         return text
 
-    def parse_people(self):
+    def parse_people(self) -> defaultdict[str, List[message]]:
         people = defaultdict(list)
 
         current_person = ""
@@ -36,7 +37,7 @@ class snap_html_parser(BeautifulSoup):
                 print(info[0].text, current_person)
                 current_message = message(text = info[0].text, date = current_date, username = current_person)
                 people[current_person].append(current_message)
-        print(people)
+        return people
 if __name__ == '__main__':
     s = snap_html_parser("chat_history.html")
     s.parse_people()
