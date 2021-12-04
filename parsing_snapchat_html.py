@@ -61,7 +61,7 @@ class snap_html_parser(BeautifulSoup):
 
         return final_list
 
-    def get_longest_message(self, username: str) -> str:
+    def get_longest_message(self, username: str) -> message:
         """
         :param username: username
         :return: longest message sent by user
@@ -73,8 +73,11 @@ class snap_html_parser(BeautifulSoup):
             if len(messages[best_index].text) < len(messages[i].text):
                 best_index = i
 
-        return messages[best_index].text
+        return messages[best_index]
 
+    def get_longest_message_list(self, username: str) -> List[message]:
+        parsed = s.parse_people()[username]
+        return sorted(parsed, key = lambda x: len(x.text), reverse = True)
 
 
 
@@ -87,10 +90,17 @@ if __name__ == '__main__':
 
     username = environ["SOME_USERNAME_FOR_SNAP_ANALYSIS"]
     s = snap_html_parser("chat_history.html")
-    print(s.get_longest_message(username))
+    a = s.get_longest_message_list(username)
+    for i in range(0, 2):
+        print(a[i].text, "\n", a[i].date)
+        print()
+        print()
+    # mes = s.get_longest_message(username)
+    # print(mes.text, mes.date)
     # result = s.word_length_over_time(username)
     # for r in result:
     #     print(r[0] + "\t" + str(r[1]))
     #
     # a = 0
     # for i in result: a+=i[1]
+    # print(len(""))
